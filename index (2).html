@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hisaab Guru</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪙</text></svg>">
+<style>
+:root{--p:#6B5CE7;--tint:#EEEBFD;--peach:#F2B8A2;--bg:#FAF7F4;--sf:#fff;--tx:#2B2A33;--mu:#7A7785;--bd:#ECE7E1;--ok:#4F9D7A;--wn:#E0A458;--er:#D9667A;
+--sm:12px;--md:16px;--lg:28px;--full:9999px;--s1:0 1px 3px rgba(107,92,231,.06);--s2:0 6px 20px rgba(107,92,231,.10)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16px 'DM Sans',ui-rounded,-apple-system,'Segoe UI',system-ui,sans-serif}
+h1,h2,h3{font-weight:700;letter-spacing:-.02em;margin:0 0 12px}h1{font-size:40px}h2{font-size:24px}h3{font-size:20px}
+.cap{color:var(--mu);font-size:14px;margin:0 0 24px}
+.wrap{display:flex;min-height:100vh}
+aside{width:280px;background:var(--sf);border-right:1px solid var(--bd);border-radius:0 var(--lg) var(--lg) 0;box-shadow:var(--s1);padding:24px 16px;flex-shrink:0}
+main{flex:1;max-width:1100px;margin:0 auto;padding:48px 24px 64px}
+hr{border:0;height:1px;background:var(--bd);margin:24px 0}
+button{font:500 14px inherit;font-family:inherit;border-radius:var(--full);min-height:48px;padding:0 24px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);box-shadow:var(--s1);cursor:pointer;transition:transform .18s,box-shadow .18s}
+button:hover{transform:scale(1.02);box-shadow:var(--s2);border-color:var(--p);color:var(--p)}
+button.pr{background:var(--p);border-color:var(--p);color:#fff}button.pr:hover{color:#fff}
+button.sm{min-height:32px;padding:0 16px}
+input,select,textarea{font:inherit;width:100%;min-height:48px;padding:12px 16px;border-radius:var(--md);border:1px solid var(--bd);background:var(--sf);color:var(--tx);box-shadow:var(--s1);outline:0;margin-bottom:12px}
+textarea{min-height:96px}input:focus,select:focus,textarea:focus{border:2px solid var(--p);padding:11px 15px}
+label{display:block;font-size:14px;margin-bottom:4px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--lg);box-shadow:var(--s2);padding:24px;margin-bottom:16px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:800px){.wrap{flex-direction:column}aside{width:100%;border-radius:0 0 var(--lg) var(--lg)}.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+.met b{display:block;font-size:24px;color:var(--p)}.met span{font-size:14px;color:var(--mu)}
+.tabs{display:flex;gap:8px;padding:4px 0 16px;flex-wrap:wrap}
+.tabs button{border:0;box-shadow:none;background:transparent;color:var(--mu);min-height:0;padding:8px 20px}
+.tabs button:hover{background:var(--tint);color:var(--p);transform:none}.tabs button.on{background:var(--tint);color:var(--p)}
+.al{border-radius:var(--md);padding:12px 16px;margin:8px 0;box-shadow:var(--s1);font-size:14px}
+.in{background:var(--tint)}.ok{background:#e4f2ec;color:#2f6b50}.wn{background:#fbf0de;color:#8a5f1e}.er{background:#f9e3e7;color:#a03a4d}
+.bar{height:12px;background:var(--tint);border-radius:var(--full);overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--p);border-radius:var(--full)}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--md);overflow:hidden;box-shadow:var(--s1)}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--bd)}th{color:var(--mu);font-weight:500}
+td input,td select{margin:0;min-height:32px;padding:4px 8px}
+.hero{text-align:center;padding:24px 0 32px}.hero p{color:var(--mu);margin:0}
+.bub{width:56px;height:56px;border-radius:var(--full);background:var(--tint);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.row button{margin-bottom:12px}
+.bc{display:flex;align-items:flex-end;gap:12px;height:140px;padding-top:8px}.bc div{flex:1;text-align:center;font-size:12px;color:var(--mu)}
+.bc i{display:block;background:var(--p);border-radius:var(--sm) var(--sm) 0 0;min-height:2px;margin-bottom:4px}
+details{background:var(--sf);border:1px solid var(--bd);border-radius:var(--lg);box-shadow:var(--s1);padding:8px 16px;margin-bottom:12px}summary{cursor:pointer;padding:8px 0;font-weight:500}
+</style></head><body><div class="wrap" id="root"></div>
+<script>
+const $=id=>document.getElementById(id);
+const rs=x=>'₹'+Math.round(+x||0).toLocaleString('en-IN');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KINDS=['credit_given','payment_received','cash_sale'];
+const CATS={Food:'🍔',Travel:'🚌',Education:'📚',Shopping:'🛍️',Entertainment:'🎮',Other:'📦'};
+let S={mode:null,ledger:[],exp:[],goals:[],budget:5000,nid:1};
+try{Object.assign(S,JSON.parse(localStorage.getItem('hisaabguru')||'{}'));}catch(e){}
+S.mode=S.mode||null;
+let U={tab:0,page:0,lang:'hi',out:'English',text:null,entries:[],txt:'',advice:'',fq:'',fc:'All',ft:'All',msg:''};
+const save=()=>{try{localStorage.setItem('hisaabguru',JSON.stringify(S))}catch(e){}};
+const go=(m)=>{S.mode=m;save();draw()};
+const today=()=>new Date().toISOString().slice(0,10);
+const daysAgo=n=>new Date(Date.now()-n*864e5);
+
+/* ---------- Khata Guru logic (offline, rule-based parser) ---------- */
+function parse(text){
+  const out=[];
+  text.split(/[,;.\n]|\baur\b|\band\b/i).map(s=>s.trim()).filter(Boolean).forEach(seg=>{
+    const low=seg.toLowerCase();
+    const im=low.match(/(\d+(?:\.\d+)?\s*(?:kilo|kg|gram|g|litre|ltr|l|packet|pkt)s?\s+[a-z]+|(?:rice|sugar|oil|dal|atta|soap|biscuit\w*|chai|milk)\b[\w ]{0,10})/);
+    const item=im?im[0].replace(/\bkilo\b/,'kg').replace(/\s+(ne|ka|ki|for|udhaar|udhar)$/,'').trim():'';
+    const rest=im?low.replace(im[0],' '):low;
+    const nums=rest.match(/\d+(?:\.\d+)?/g);
+    const amount=nums?parseFloat(nums[nums.length-1]):0;
+    let kind='credit_given';
+    if(/wapas|diye|diya|paid|returned|received|jama|pay back/.test(low))kind='payment_received';
+    else if(/udhaar|udhar|baaki|credit|liya/.test(low))kind='credit_given';
+    else if(/sold|cash|becha|bech/.test(low))kind='cash_sale';
+    const w=seg.split(/\s+/)[0];
+    let customer=/^(sold|cash|a|one)$/i.test(w)?'Walk-in':w;
+    if(kind==='cash_sale'&&!/ ne /i.test(' '+low+' '))customer='Walk-in';
+    out.push({customer,kind,item,amount});
+  });
+  return clean(out);
+}
+const clean=es=>es.map(e=>({customer:String(e.customer||'').trim()||'Walk-in',kind:KINDS.includes(e.kind)?e.kind:'credit_given',item:String(e.item||'').trim(),amount:Math.abs(parseFloat(e.amount))||0}));
+const title=s=>s.replace(/\w\S*/g,t=>t[0].toUpperCase()+t.slice(1).toLowerCase());
+function describe(e,hi){const a=rs(e.amount),c=e.customer,i=e.item;
+  if(hi)return e.kind=='credit_given'?`${c} ने ${i||'सामान'} उधार लिया, ${a}`:e.kind=='payment_received'?`${c} ने ${a} वापस दिए`:`नकद बिक्री: ${i||'सामान'}, ${a}`;
+  return e.kind=='credit_given'?`${c} took ${i||'goods'} on credit, ${a}`:e.kind=='payment_received'?`${c} paid back ${a}`:`Cash sale: ${i||'goods'}, ${a}`;}
+function balances(){const m={};S.ledger.forEach(r=>{if(r.kind=='cash_sale')return;m[r.customer]=(m[r.customer]||0)+(r.kind=='credit_given'?r.amount:-r.amount)});
+  return Object.entries(m).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).map(([customer,owes])=>({customer,owes}))}
+function facts(){const now=Date.now(),wk=S.ledger.filter(r=>now-new Date(r.ts)<=7*864e5),sum=k=>wk.filter(r=>r.kind==k).reduce((a,r)=>a+r.amount,0),bal=balances();
+  return{credit:sum('credit_given'),paid:sum('payment_received'),cash:sum('cash_sale'),total:bal.reduce((a,b)=>a+b.owes,0),
+  top:bal.slice(0,3).map(b=>{const f=S.ledger.filter(r=>r.customer==b.customer&&r.kind=='credit_given').map(r=>new Date(r.ts));return{...b,days:f.length?Math.floor((now-Math.min(...f))/864e5):0}})}}
+function summary(f){return[`This week: credit given ${rs(f.credit)}, payments received ${rs(f.paid)}, cash sales ${rs(f.cash)}.`,`Total still to collect: ${rs(f.total)}.`,...f.top.map(d=>`Chase ${d.customer}: owes ${rs(d.owes)} (first credit ${d.days} days ago).`)]}
+function advice(f,hi){const t=f.top[0];const L=[];
+  if(hi){if(t)L.push(`${t.customer} से ${rs(t.owes)} बाकी है, आज ही याद दिलाएँ।`);L.push(`कुल बाकी ${rs(f.total)} है। नया उधार देने से पहले पुराना हिसाब माँगें।`);
+    L.push(f.credit>f.paid?`इस हफ्ते उधार (${rs(f.credit)}) वसूली (${rs(f.paid)}) से ज़्यादा है, उधार की सीमा तय करें।`:'वसूली अच्छी है, ऐसे ही जारी रखें।');L.push('हर ग्राहक के लिए उधार की सीमा और तारीख तय करें।');}
+  else{if(t)L.push(`Ask ${t.customer} to pay ${rs(t.owes)} today. Their first credit was ${t.days} days ago.`);L.push(`Total due is ${rs(f.total)}. Ask for old dues before giving new credit.`);
+    L.push(f.credit>f.paid?`You gave ${rs(f.credit)} credit but collected only ${rs(f.paid)}. Set a credit limit.`:`Collections (${rs(f.paid)}) are keeping up with credit. Keep it going.`);L.push('Give each customer a credit limit and a payment date.');}
+  return L}
+
+/* ---------- views ---------- */
+const alertBox=(c,t)=>`<div class="al ${c}">${t}</div>`;
+const tabs=(names,cur,fn)=>`<div class="tabs">${names.map((n,i)=>`<button class="${i==cur?'on':''}" onclick="${fn}(${i})">${n}</button>`).join('')}</div>`;
+const metric=(l,v)=>`<div class="card met"><span>${l}</span><b>${v}</b></div>`;
+const table=(h,rows)=>`<table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${rows.join('')||`<tr><td colspan="${h.length}" style="color:var(--mu)">Nothing here yet.</td></tr>`}</table>`;
+
+function landing(){return`<main><div class="hero"><h1>Hisaab Guru</h1><p>Har paisa ka hisaab. Pick who you are.</p></div>
+<div class="grid g2"><div class="card"><div class="bub">🏪</div><h3>I run a shop</h3><p><b>Khata Guru</b>: speak your udhaar in Hindi or English, confirm it, and see who to chase. Works offline in this browser.</p><button class="pr" onclick="go('shop')">Open shopkeeper mode</button></div>
+<div class="card"><div class="bub">🎓</div><h3>I am a student</h3><p><b>SpendWise</b>: track expenses, set a monthly budget, see needs vs wants, and save for goals.</p><button class="pr" onclick="go('student')">Open student mode</button></div></div></main>`}
+
+const side=inner=>`<aside><button onclick="go(null)">⬅ Switch mode</button><hr>${inner}</aside>`;
+
+function shop(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const hi=U.out=='Hindi',f=facts(),bal=balances();
+  const sb=`<h3>Settings</h3><label>Language you speak</label><select onchange="U.lang=this.value" ><option value="hi-IN" ${U.lang=='hi-IN'?'selected':''}>Hindi / Hinglish</option><option value="en-IN" ${U.lang=='en-IN'?'selected':''}>English</option></select>
+<label>Read-back and advice language</label><select onchange="U.out=this.value;draw()"><option ${!hi?'selected':''}>English</option><option ${hi?'selected':''}>Hindi</option></select><hr>
+<h3 style="font-size:16px">System check</h3><div>${SR?'✅':'❌'} Microphone dictation (Chrome/Edge)</div><div>${(()=>{try{localStorage.setItem('t',1);return'✅'}catch(e){return'❌'}})()} Saving on this device</div><div>✅ Entry understanding (offline rules)</div><hr>
+<button onclick="sampleShop()">Load sample week of data</button><br><br><details><summary>Reset ledger (before the real demo)</summary><button onclick="if(confirm('Delete every entry?')){S.ledger=[];save();draw()}">Delete all</button></details>`;
+  let body='';
+  if(U.tab==0){
+    body=`<p><b>Step 1.</b> Record or type. <b>Step 2.</b> Check what it understood. <b>Step 3.</b> Save.</p>
+<div class="row"><button onclick="listen()" ${SR?'':'disabled'}>🎙️ Tap to record</button><span class="cap" style="margin:0 0 12px" id="mic">${SR?'Speak, then it fills the box below.':'Mic dictation is not supported here. Type instead.'}</span></div>
+<label>...or type it (backup if the mic fails)</label><textarea id="ta" oninput="U.txt=this.value" placeholder="Ramesh ne 2 kilo sugar udhaar liya 90 rupees, Suresh ne 200 wapas diye">${esc(U.txt)}</textarea>
+<button class="pr" onclick="proc()">Process</button>${U.msg?alertBox('wn',U.msg):''}`;
+    if(U.text!==null){body+=`<p><b>I heard:</b> ${esc(U.text)||'<i>nothing</i>'}</p>`;
+      if(U.entries.length){body+=`<p><b>Is this right?</b></p>${U.entries.map(e=>alertBox('in',esc(describe(e,hi)))).join('')}<p class="cap">Wrong name or amount? Fix it in the table below, then save.</p>
+${table(['customer','kind','item','amount',''],U.entries.map((e,i)=>`<tr><td><input value="${esc(e.customer)}" onchange="U.entries[${i}].customer=this.value"></td><td><select onchange="U.entries[${i}].kind=this.value">${KINDS.map(k=>`<option ${k==e.kind?'selected':''}>${k}</option>`).join('')}</select></td><td><input value="${esc(e.item)}" onchange="U.entries[${i}].item=this.value"></td><td><input type="number" value="${e.amount}" onchange="U.entries[${i}].amount=this.value"></td><td><button class="sm" onclick="U.entries.splice(${i},1);draw()">✕</button></td></tr>`))}
+<br><div class="row"><button class="pr" onclick="saveE()">✅ Yes, save to ledger</button><button onclick="U.text=null;U.entries=[];draw()">❌ No, discard</button></div>`}
+      else if(U.text)body+=alertBox('wn','No entries found. Try again, speak a little slower, or type it.')}
+  }else if(U.tab==1){
+    body=`<h2>Who owes you</h2>${table(['Customer','Owes (₹)'],bal.map(b=>`<tr><td>${esc(b.customer)}</td><td>${Math.round(b.owes).toLocaleString('en-IN')}</td></tr>`))}
+<div class="card met" style="margin-top:16px"><span>Total outstanding (₹)</span><b>${Math.round(bal.reduce((a,b)=>a+b.owes,0)).toLocaleString('en-IN')}</b></div>
+<h2>All entries</h2>${table(['ts','customer','kind','item','amount'],[...S.ledger].sort((a,b)=>b.ts.localeCompare(a.ts)).map(r=>`<tr><td>${r.ts.replace('T',' ').slice(0,19)}</td><td>${esc(r.customer)}</td><td>${r.kind}</td><td>${esc(r.item)}</td><td>${r.amount}</td></tr>`))}`;
+  }else{
+    body=`<p>Numbers are calculated by the app. The tips turn them into plain advice.</p>`;
+    body+=!S.ledger.length?alertBox('in','Add some entries first (or load the sample week from the sidebar).'):`${summary(f).map(l=>`<div>• ${l}</div>`).join('')}<br><button class="pr" onclick="U.advice=1;draw()">Get advice</button>${U.advice?`<div class="card" style="margin-top:16px">${advice(f,hi).map((l,i)=>`<div>${i+1}. ${l}</div>`).join('')}</div>`:''}`;
+  }
+  return side(sb)+`<main><h1>📒 Khata Guru</h1><p class="cap">Speak your udhaar in Hindi or English. Runs in this browser. No cloud, no API keys.</p>${tabs(['🎙️ Add entries','📒 Ledger & dues','💡 Weekly advice'],U.tab,'setTab')}${body}</main>`;
+}
+function proc(){const t=(U.txt||'').trim();if(!t){U.msg='Record something or type a sentence first.';return draw()}U.msg='';U.text=t;U.entries=parse(t);draw()}
+function saveE(){const es=clean(U.entries).filter(e=>e.customer);const ts=new Date().toISOString().slice(0,19);es.forEach(e=>S.ledger.push({ts,customer:title(e.customer),kind:e.kind,item:e.item,amount:e.amount}));save();U.text=null;U.entries=[];U.txt='';U.msg='';draw();alert('Saved '+es.length+' entries')}
+function listen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new SR();r.lang=U.lang=='en-IN'?'en-IN':'hi-IN';r.interimResults=false;
+  $('mic').textContent='Listening...';r.onresult=e=>{U.txt=(U.txt?U.txt+', ':'')+e.results[0][0].transcript;draw()};r.onerror=e=>{$('mic').textContent='Mic error: '+e.error+'. Allow the microphone or type instead.'};r.start()}
+function sampleShop(){[[6,'Ramesh','credit_given','rice 5 kg',320],[5,'Lakshmi','credit_given','oil 1 L',150],[4,'Ramesh','credit_given','sugar 2 kg',90],[3,'Suresh','credit_given','dal, atta',410],[2,'Suresh','payment_received','',200],[1,'Walk-in','cash_sale','biscuits',20],[1,'Lakshmi','credit_given','soap',45]]
+  .forEach(([d,customer,kind,item,amount])=>S.ledger.push({ts:daysAgo(d).toISOString().slice(0,19),customer,kind,item,amount}));save();draw()}
+
+function student(){
+  const mo=today().slice(0,7),mdf=S.exp.filter(e=>e.date.slice(0,7)==mo),spent=mdf.reduce((a,e)=>a+e.amount,0),pct=S.budget>0?spent/S.budget:0;
+  const sb=`<div style="display:flex;flex-direction:column;gap:4px">${['🏠 Dashboard','💳 Expenses','📊 Analytics','🎯 Savings Goals'].map((p,i)=>`<button style="text-align:left;${i==U.page?'background:var(--tint);color:var(--p)':''}" onclick="U.page=${i};draw()">${p}</button>`).join('')}</div><hr>
+<details><summary>➕ Add expense</summary><label>Amount (₹)</label><input id="xa" type="number" min="1" value="100" step="10"><label>Description</label><input id="xd" placeholder="College lunch"><label>Category</label><select id="xc">${Object.keys(CATS).map(c=>`<option value="${c}">${CATS[c]} ${c}</option>`).join('')}</select><label>Type</label><select id="xt"><option>need</option><option>want</option></select><label>Date</label><input id="xdt" type="date" value="${today()}"><label>Payment</label><select id="xp"><option>UPI</option><option>Cash</option><option>Card</option></select><button class="pr" onclick="addX()">Save expense</button></details>
+<button onclick="sampleStu()">Load sample data</button><br><br><details><summary>Reset all student data</summary><button onclick="if(confirm('Delete everything?')){S.exp=[];S.goals=[];S.budget=5000;save();draw()}">Delete all</button></details>`;
+  let b='';
+  if(U.page==0){const needs=mdf.filter(e=>e.type=='need').reduce((a,e)=>a+e.amount,0),cat={};mdf.forEach(e=>cat[e.category]=(cat[e.category]||0)+e.amount);
+    b=`<div class="grid g4">${metric('Monthly budget',rs(S.budget))}${metric('Spent this month',rs(spent))}${metric('Remaining',rs(Math.max(0,S.budget-spent)))}${metric('Daily average',rs(spent/Math.max(1,new Date().getDate())))}</div>
+<div class="bar"><i style="width:${Math.min(pct,1)*100}%"></i></div><p class="cap">${Math.round(pct*100)}% of your monthly budget used</p>
+${pct>=1?alertBox('er','⚠️ You have exceeded your budget.'):pct>=.8?alertBox('wn','⚠️ You have used more than 80% of your budget.'):''}
+<details><summary>Edit budget</summary><label>Monthly budget (₹)</label><input id="bg" type="number" min="1" step="500" value="${S.budget}"><button class="pr" onclick="S.budget=+$('bg').value||5000;save();draw()">Save budget</button></details>
+<div class="grid g2"><div><h2>Need vs want</h2>${spent?`<p>Needs <b>${rs(needs)}</b> · Wants <b>${rs(spent-needs)}</b></p><div class="bar"><i style="width:${needs/spent*100}%"></i></div><p class="cap">${Math.round(needs/spent*100)}% needs</p>`:alertBox('in','No expenses this month yet.')}</div>
+<div><h2>Spending by category</h2>${spent?bars(cat):alertBox('in','No expenses this month yet.')}</div></div>
+<h2>Recent expenses</h2>${xtable([...S.exp].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5))}`;
+  }else if(U.page==1){let v=S.exp.filter(e=>e.description.toLowerCase().includes(U.fq.toLowerCase())&&(U.fc=='All'||e.category==U.fc)&&(U.ft=='All'||e.type==U.ft)).sort((a,b)=>b.date.localeCompare(a.date));
+    b=`<input placeholder="🔎 Search expenses" value="${esc(U.fq)}" onchange="U.fq=this.value;draw()"><div class="grid g2"><select onchange="U.fc=this.value;draw()">${['All',...Object.keys(CATS)].map(c=>`<option ${c==U.fc?'selected':''}>${c}</option>`).join('')}</select><select onchange="U.ft=this.value;draw()">${['All','need','want'].map(c=>`<option ${c==U.ft?'selected':''}>${c}</option>`).join('')}</select></div>${xtable(v)}
+${v.length?`<br><label>Delete an expense</label><select id="dx">${v.map(e=>`<option value="${e.id}">${e.date} · ${esc(e.description)} · ${rs(e.amount)}</option>`).join('')}</select><button onclick="S.exp=S.exp.filter(e=>e.id!=$('dx').value);save();draw()">🗑 Delete selected</button>`:''}`;
+  }else if(U.page==2){if(!S.exp.length)b=alertBox('in','Add some expenses first (or load the sample data).');else{
+    const cat={};S.exp.forEach(e=>cat[e.category]=(cat[e.category]||0)+e.amount);const cs=Object.entries(cat).sort((a,b)=>b[1]-a[1]);const wants=S.exp.filter(e=>e.type=='want').reduce((a,e)=>a+e.amount,0);
+    const d7=[...Array(7)].map((_,i)=>{const d=daysAgo(6-i).toISOString().slice(0,10);return[d.slice(5),S.exp.filter(e=>e.date==d).reduce((a,e)=>a+e.amount,0)]});
+    b=`<div class="grid g2"><div><h2>Category distribution</h2>${bars(cat)}</div><div><h2>7-day spending</h2>${bars(Object.fromEntries(d7))}</div></div>
+<div class="grid g3">${metric('🔥 Highest category',cs[0][0]+' · '+rs(cs[0][1]))}${metric('💰 Potential savings',rs(wants*.25)+' (25% of wants)')}${metric('📊 Average expense',rs(S.exp.reduce((a,e)=>a+e.amount,0)/S.exp.length))}</div>`}
+  }else{
+    b=`<div class="card"><h2>Create a savings goal</h2><input id="gn" placeholder="New laptop"><label>Target (₹)</label><input id="gt" type="number" min="1" value="10000" step="500"><label>Already saved (₹)</label><input id="gs" type="number" min="0" value="0" step="100"><button class="pr" onclick="addG()">Create goal</button></div>
+${S.goals.length?'':alertBox('in','No savings goals yet.')}${[...S.goals].reverse().map(g=>`<div class="card"><b>🎯 ${esc(g.name)}</b>: ${rs(g.saved)} of ${rs(g.target)} (${rs(Math.max(0,g.target-g.saved))} left)<div class="bar"><i style="width:${Math.min(1,g.saved/g.target)*100}%"></i></div>
+<div class="row"><input id="ga${g.id}" type="number" min="0" step="100" placeholder="Add savings (₹)" style="width:200px;margin:0"><button onclick="addS(${g.id})">Add</button><button onclick="S.goals=S.goals.filter(x=>x.id!=${g.id});save();draw()">Delete</button></div></div>`).join('')}`;
+  }
+  return side(sb)+`<main><h1>🎓 SpendWise</h1><p class="cap">Student money tracker. Everything is saved on this device only.</p>${b}</main>`;
+}
+const bars=o=>{const e=Object.entries(o),m=Math.max(1,...e.map(x=>x[1]));return`<div class="bc">${e.map(([k,v])=>`<div title="${rs(v)}"><i style="height:${v/m*110}px"></i>${esc(k)}</div>`).join('')}</div>`};
+const xtable=l=>table(['date','description','category','type','amount','payment'],l.map(e=>`<tr><td>${e.date}</td><td>${esc(e.description)}</td><td>${CATS[e.category]||''} ${e.category}</td><td>${e.type}</td><td>${rs(e.amount)}</td><td>${e.payment||''}</td></tr>`));
+function addX(){const d=$('xd').value.trim();if(!d)return alert('Add a description.');S.exp.push({id:S.nid++,amount:+$('xa').value||1,description:d,category:$('xc').value,type:$('xt').value,date:$('xdt').value||today(),payment:$('xp').value});save();draw()}
+function sampleStu(){[[0,120,'College lunch','Food','need'],[1,40,'Bus pass top-up','Travel','need'],[2,450,'Notebooks and pens','Education','need'],[3,299,'Movie night','Entertainment','want'],[4,800,'New sneakers','Shopping','want'],[5,90,'Chai and snacks','Food','want']]
+  .forEach(([d,amount,description,category,type])=>S.exp.push({id:S.nid++,amount,description,category,type,date:daysAgo(d).toISOString().slice(0,10),payment:'UPI'}));save();draw()}
+function addG(){const n=$('gn').value.trim();if(!n)return;S.goals.push({id:S.nid++,name:n,target:+$('gt').value||1,saved:+$('gs').value||0});save();draw()}
+function addS(id){const v=+$('ga'+id).value;if(v>0){S.goals.find(g=>g.id==id).saved+=v;save();draw()}}
+function setTab(i){U.tab=i;draw()}
+function draw(){try{$('root').innerHTML=S.mode=='shop'?shop():S.mode=='student'?student():landing()}catch(e){$('root').innerHTML=`<main><div class="al er">Something went wrong: ${esc(e.message)}</div><div class="al in">Press 'Switch mode' or refresh the page.</div><button onclick="go(null)">⬅ Switch mode</button></main>`}}
+draw();
+</script></body></html>
